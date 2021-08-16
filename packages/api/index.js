@@ -1,25 +1,14 @@
 require("dotenv/config");
+require("./interrupts");
 const app = require("./app");
 const db = require("./lib/database");
 const { sleep } = require("./lib/util");
 const { getSessions, seed } = require("./lib/seed");
 
 const { API_PORT } = process.env;
-const port = API_PORT || 3000;
+const port = API_PORT || 9000;
 
 start();
-
-process.on("uncaughtException", (err) => {
-  console.log(err);
-  process.exit(1);
-});
-
-process.on("unhandledRejection", (reason) => {
-  console.log(reason);
-  process.exit(1);
-});
-
-process.on("SIGTERM", () => process.exit(0));
 
 async function start() {
   try {
@@ -44,6 +33,7 @@ async function connectDB(retries = 5) {
         "Unable to connect! Check your database connection / credentials."
       );
     }
+    console.log(err);
     console.log(`Failed to connect, retrying ${retries} more times...`);
     await sleep(2000);
     return connectDB(retries - 1);

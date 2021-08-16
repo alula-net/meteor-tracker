@@ -49,23 +49,42 @@ Reference the included `docker-compose.yaml` for a working example, however if y
    $ docker pull aluladevops/meteor-tracker:latest
    ```
 
-2. Run the API:
+1. Create a network:
 
    ```
-   $ docker run --rm \
+   $ docker network create mtnet
+   ```
+
+1. Run a postgres instance:
+
+   ```
+   $ docker run -it --name postgres \
+      --env POSTGRES_USER=mtapp \
+      --env POSTGRES_PASSWORD=test123 \
+      --network mtnet \
+      postgres
+   ```
+
+1. Run the API:
+
+   ```
+   $ docker run --rm -it \
+    --name mt_api \
+    --network mtnet \
     --env API_PORT=9001 \
-    --env DATABASE_URL=postgresql://mtapp:test123@localhost:5433/mtapp \
-    -p 9001:9001 \
+    --env DATABASE_URL=postgresql://mtapp:test123@postgres:5432/mtapp\?schema=public \
     aluladevops/meteor-tracker \
     start:api
    ```
 
-3. Run the App:
+1. Run the App:
 
    ```
-   $ docker run --rm \
+   $ docker run --rm -it \
+    --name mt_app \
+    --network mtnet \
     --env PORT=9000 \
-    --env API_URL=http://localhost:9001 \
+    --env API_URL=http://mt_api:9001 \
     -p 9000:9000 \
     aluladevops/meteor-tracker \
     start:app
