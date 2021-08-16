@@ -7,4 +7,6 @@ COPY . .
 
 RUN yarn
 
+EXPOSE 9000
+EXPOSE 9001
 ENTRYPOINT [ "yarn" ]

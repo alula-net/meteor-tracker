@@ -2,6 +2,8 @@
 
 This is a dead-simple demo Node.js app for code excersizes.
 
+![Screenshot](./docs/screenshot.png)
+
 ## Dependencies
 
 - Node.js 14 or greater

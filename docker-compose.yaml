@@ -11,6 +11,8 @@ services:
       - 5433:5432
 
   app:
+    depends_on:
+      - api
     command:
       - start:app
     build:
@@ -20,9 +22,11 @@ services:
     environment:
       PORT: 9001
       NODE_ENV: production
-      API_URL: api:9000
+      API_URL: http://api:9000
 
   api:
+    depends_on:
+      - db
     command:
       - start:api
     build:
@@ -32,4 +36,4 @@ services:
     environment:
       API_PORT: 9000
       NODE_ENV: production
-      DATABASE_URL: postgresql://mtapp:test123@localhost:5433/mtapp?schema=public
+      DATABASE_URL: postgresql://mtapp:test123@db:5432/mtapp?schema=public
