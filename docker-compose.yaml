@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: mtapp
+      POSTGRES_PASSWORD: test123
+    ports:
+      - 5433:5432
+
+  app:
+    command:
+      - start:app
+    build:
+      context: .
+    ports:
+      - 9001:9001
+    environment:
+      PORT: 9001
+      NODE_ENV: production
+      API_URL: api:9000
+
+  api:
+    command:
+      - start:api
+    build:
+      context: .
+    ports:
+      - 9000:9000
+    environment:
+      API_PORT: 9000
+      NODE_ENV: production
+      DATABASE_URL: postgresql://mtapp:test123@localhost:5433/mtapp?schema=public

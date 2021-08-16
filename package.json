@@ -1,0 +1,19 @@
+{
+  "name": "meteor-tracker",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  },
+  "scripts": {
+    "start:api": "node packages/api",
+    "start:api:dev": "nodemon packages/api",
+    "start:app": "node packages/app",
+    "start:app:dev": "nodemon packages/app"
+  }
+}

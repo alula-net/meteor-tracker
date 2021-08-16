@@ -1,0 +1,33 @@
+extends layout.pug
+
+block content
+  form(action='/')
+    .row
+      .col
+        nav(aria-label='Page navigation')
+          - var totalPages = Math.ceil(meta.total / meta.limit) + 1
+          - var pageN = 1
+          ul.pagination
+            while pageN < totalPages
+              li.page-item
+                a.page-link(href=`/?page=${pageN - 1}`)= pageN++
+      .col
+    .table-responsive
+    table(class='table table-striped')
+      tr
+        th Session ID
+        th Observer Name
+        th City
+        th Country
+        th Latitude
+        th Longitude
+        th Elevation
+      each session in data
+        tr
+          td= session.id
+          td= session.actualObserverName
+          td= session.city
+          td= session.country
+          td= session.latitude
+          td= session.longitude
+          td= session.elevation
