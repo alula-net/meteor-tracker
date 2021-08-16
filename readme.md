@@ -36,3 +36,37 @@ Make sure to fill in the appropriate values for the `environment` keys in `docke
 Run `docker compose up --build`
 
 Navigate to the port exposed for the `app` service.
+
+## Deployment
+
+This application is meant to be deployed as a container, with a slight exception to the norm - both the API and UI can be run out of a single image.
+
+Reference the included `docker-compose.yaml` for a working example, however if you _just_ want to run it out of docker, you can run the following commands.
+
+1. Pull the image:
+
+   ```
+   $ docker pull aluladevops/meteor-tracker:latest
+   ```
+
+2. Run the API:
+
+   ```
+   $ docker run --rm \
+    --env API_PORT=9001 \
+    --env DATABASE_URL=postgresql://mtapp:test123@localhost:5433/mtapp \
+    -p 9001:9001 \
+    aluladevops/meteor-tracker \
+    start:api
+   ```
+
+3. Run the App:
+
+   ```
+   $ docker run --rm \
+    --env PORT=9000 \
+    --env API_URL=http://localhost:9001 \
+    -p 9000:9000 \
+    aluladevops/meteor-tracker \
+    start:app
+   ```
